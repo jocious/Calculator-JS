@@ -1,0 +1,122 @@
+/* Main page */
+body {
+
+    /* Set the font */
+    font-family: Arial;
+
+    /* Page background */
+    background: lightgray;
+
+    /* Put calculator in the center */
+    display: flex;
+
+    /* Center horizontally */
+    justify-content: center;
+
+    /* Add space at the top */
+    margin-top: 50px;
+}
+
+
+/* Calculator box */
+.calculator {
+
+    /* Set calculator width */
+    width: 320px;
+
+    /* Add space inside */
+    padding: 10px;
+
+    /* Calculator background */
+    background: #eee;
+
+    /* Rounded corners */
+    border-radius: 8px;
+}
+
+
+/* Small calculation history */
+#history {
+
+    /* White background */
+    background: white;
+
+    /* Space inside */
+    padding: 5px 15px;
+
+    /* Put text on the right */
+    text-align: right;
+
+    /* Small text */
+    font-size: 15px;
+
+    /* Gray text */
+    color: gray;
+}
+
+
+/* Main display */
+#display {
+
+    /* White background */
+    background: white;
+
+    /* Space inside */
+    padding: 15px;
+
+    /* Put number on the right */
+    text-align: right;
+
+    /* Make number bigger */
+    font-size: 35px;
+}
+
+
+/* Arrange buttons */
+.buttons {
+
+    /* Use CSS Grid */
+    display: grid;
+
+    /* Create 4 equal columns */
+    grid-template-columns: repeat(4, 1fr);
+}
+
+
+/* Calculator buttons */
+button {
+
+    /* Button height */
+    height: 55px;
+
+    /* Text size */
+    font-size: 18px;
+
+    /* Add border */
+    border: 1px solid #ddd;
+
+    /* Button background */
+    background: white;
+
+    /* Change cursor */
+    cursor: pointer;
+}
+
+
+/* When mouse is over button */
+button:hover {
+
+    /* Change button color */
+    background: #ddd;
+}
+
+
+/* Equal button */
+.equal {
+
+    /* Red background */
+    background: red;
+
+    /* White text */
+    color: white;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- Title shown in the browser -->
+    <title>Simple Calculator</title>
+
+    <!-- Connect the CSS file -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- Main calculator box -->
+    <div class="calculator">
+
+        <!-- Shows the previous calculation -->
+        <div id="history"></div>
+
+        <!-- Shows the current number -->
+        <div id="display">0</div>
+
+
+        <!-- Calculator buttons -->
+        <div class="buttons">
+
+            <!-- First row -->
+            <button onclick="clearAll()">C</button>
+            <button onclick="backspace()">⌫</button>
+            <button onclick="changeSign()">+/-</button>
+            <button onclick="operator('/')">÷</button>
+
+
+            <!-- Second row -->
+            <button onclick="number('7')">7</button>
+            <button onclick="number('8')">8</button>
+            <button onclick="number('9')">9</button>
+            <button onclick="operator('*')">×</button>
+
+
+            <!-- Third row -->
+            <button onclick="number('4')">4</button>
+            <button onclick="number('5')">5</button>
+            <button onclick="number('6')">6</button>
+            <button onclick="operator('-')">−</button>
+
+
+            <!-- Fourth row -->
+            <button onclick="number('1')">1</button>
+            <button onclick="number('2')">2</button>
+            <button onclick="number('3')">3</button>
+            <button onclick="operator('+')">+</button>
+
+
+            <!-- Last row -->
+            <button onclick="changeSign()">+/-</button>
+            <button onclick="number('0')">0</button>
+            <button onclick="decimal()">.</button>
+
+            <!-- Equal button -->
+            <button class="equal" onclick="calculate()">=</button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Connect the JavaScript file -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
