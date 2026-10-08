@@ -1,53 +1,120 @@
-/* Main page */
+/* Apply box sizing to all elements */
+* {
+    box-sizing: border-box;
+}
+
+
+/* ========================= */
+/* Page */
+/* ========================= */
+
 body {
 
-    /* Set the font */
-    font-family: Arial;
+    /* Remove default margin */
+    margin: 0;
 
     /* Page background */
-    background: lightgray;
+    background-color: lightgray;
 
-    /* Put calculator in the center */
+    /* Font */
+    font-family: Arial, sans-serif;
+
+    /* Use Flexbox */
     display: flex;
 
     /* Center horizontally */
     justify-content: center;
 
-    /* Add space at the top */
-    margin-top: 50px;
+    /* Center vertically */
+    align-items: center;
+
+    /* Full screen height */
+    min-height: 100vh;
 }
 
 
-/* Calculator box */
+/* ========================= */
+/* Calculator */
+/* ========================= */
+
 .calculator {
 
-    /* Set calculator width */
-    width: 320px;
-
-    /* Add space inside */
-    padding: 10px;
+    /* Calculator width */
+    width: 360px;
 
     /* Calculator background */
-    background: #eee;
+    background-color: whitesmoke;
+
+    /* Space inside calculator */
+    padding: 10px;
 
     /* Rounded corners */
-    border-radius: 8px;
+    border-radius: 10px;
+
+    /* Shadow */
+    box-shadow: 0 4px 15px gray;
 }
 
 
-/* Small calculation history */
+/* ========================= */
+/* Top bar */
+/* ========================= */
+
+.top {
+
+    /* Top bar height */
+    height: 45px;
+
+    /* Use Flexbox */
+    display: flex;
+
+    /* Center vertically */
+    align-items: center;
+
+    /* Space between items */
+    gap: 20px;
+
+    /* Text size */
+    font-size: 18px;
+}
+
+
+/* Make Standard use remaining space */
+.top b {
+    flex: 1;
+}
+
+
+/* ========================= */
+/* Display */
+/* ========================= */
+
+.display {
+
+    /* Display height */
+    height: 100px;
+
+    /* Use Flexbox */
+    display: flex;
+
+    /* Put history above number */
+    flex-direction: column;
+
+    /* Center vertically */
+    justify-content: center;
+
+    /* Put number on right */
+    align-items: flex-end;
+
+    /* Space inside display */
+    padding: 10px;
+}
+
+
+/* Previous calculation */
 #history {
 
-    /* White background */
-    background: white;
-
-    /* Space inside */
-    padding: 5px 15px;
-
-    /* Put text on the right */
-    text-align: right;
-
-    /* Small text */
+    /* History text size */
     font-size: 15px;
 
     /* Gray text */
@@ -55,68 +122,166 @@ body {
 }
 
 
-/* Main display */
+/* Current number */
 #display {
 
-    /* White background */
-    background: white;
+    /* Large number */
+    font-size: 45px;
 
-    /* Space inside */
-    padding: 15px;
+    /* Bold number */
+    font-weight: bold;
 
-    /* Put number on the right */
-    text-align: right;
-
-    /* Make number bigger */
-    font-size: 35px;
+    /* Black text */
+    color: black;
 }
 
 
-/* Arrange buttons */
-.buttons {
+/* ========================= */
+/* Memory buttons */
+/* ========================= */
 
-    /* Use CSS Grid */
+.memory {
+
+    /* Use grid */
     display: grid;
 
-    /* Create 4 equal columns */
+    /* Six equal columns */
+    grid-template-columns: repeat(6, 1fr);
+
+    /* Space below memory */
+    margin-bottom: 10px;
+}
+
+
+/* Memory button */
+.memory button {
+
+    /* Remove border */
+    border: none;
+
+    /* Transparent background */
+    background-color: transparent;
+
+    /* Gray text */
+    color: gray;
+
+    /* Button height */
+    height: 35px;
+
+    /* Disabled cursor */
+    cursor: not-allowed;
+
+    /* Make faded */
+    opacity: 0.6;
+}
+
+
+/* ========================= */
+/* Main buttons */
+/* ========================= */
+
+.buttons {
+
+    /* Use grid */
+    display: grid;
+
+    /* Four columns */
     grid-template-columns: repeat(4, 1fr);
+
+    /* Space between buttons */
+    gap: 3px;
 }
 
 
 /* Calculator buttons */
-button {
+.buttons button {
 
     /* Button height */
     height: 55px;
 
+    /* Border */
+    border: 1px solid lightgray;
+
+    /* Rounded corners */
+    border-radius: 5px;
+
+    /* White background */
+    background-color: white;
+
     /* Text size */
     font-size: 18px;
-
-    /* Add border */
-    border: 1px solid #ddd;
-
-    /* Button background */
-    background: white;
-
-    /* Change cursor */
-    cursor: pointer;
 }
 
 
-/* When mouse is over button */
-button:hover {
+/* ========================= */
+/* Normal button hover */
+/* ========================= */
 
-    /* Change button color */
-    background: #ddd;
+.buttons button:hover {
+
+    /* Light gray */
+    background-color: lightgray;
 }
 
 
-/* Equal button */
-.equal {
+/* ========================= */
+/* Button pressed */
+/* ========================= */
+
+.buttons button:active {
+
+    /* Dark gray */
+    background-color: darkgray;
+}
+
+
+/* ========================= */
+/* Disabled buttons */
+/* ========================= */
+
+.disabled-button {
+
+    /* Gray background */
+    background-color: lightgray !important;
+
+    /* Gray text */
+    color: gray !important;
+
+    /* Disabled cursor */
+    cursor: not-allowed;
+
+    /* Make faded */
+    opacity: 0.6;
+}
+
+
+/* Keep disabled button gray */
+.disabled-button:hover {
+
+    background-color: lightgray !important;
+}
+
+
+/* ========================= */
+/* Equals button */
+/* ========================= */
+
+.equals {
 
     /* Red background */
-    background: red;
+    background-color: red !important;
 
     /* White text */
     color: white;
+
+    /* Bold text */
+    font-weight: bold;
+}
+
+
+/* Equals hover */
+.equals:hover {
+
+    /* Dark red */
+    background-color: darkred !important;
 }

@@ -1,130 +1,171 @@
-// Get the main calculator display
-let display = document.getElementById("display");
+// The number currently shown on the calculator
+let currentNumber = "0";
 
-// Get the small history display
-let history = document.getElementById("history");
+// Stores the first number
+let firstNumber = null;
 
-// Store the first number
-let firstNumber = "";
+// Stores the selected operator
+let operator = null;
 
-// Store the selected operation
-let selectedOperator = "";
+// Stores calculator memory
+let memory = 0;
+
+// Tells the calculator when to start a new number
+let shouldReset = false;
 
 
-// ==============================
-// ADD A NUMBER
-// ==============================
+// Get the display element from HTML
+const display = document.getElementById("display");
 
-function number(num) {
+// Get the history element from HTML
+const history = document.getElementById("history");
 
-    // If display is 0, replace it
-    if (display.textContent === "0") {
 
-        display.textContent = num;
+// ================================
+// Update Display
+// ================================
 
-    }
+function updateDisplay() {
 
-    // Otherwise, add the number
-    else {
+    // Show currentNumber on the screen
+    display.textContent = currentNumber;
 
-        display.textContent += num;
-
-    }
 }
 
 
-// ==============================
-// ADD DECIMAL
-// ==============================
+// ================================
+// Add Number
+// ================================
 
-function decimal() {
+function addNumber(number) {
 
-    // Check if decimal does not already exist
-    if (!display.textContent.includes(".")) {
+    // If we just finished a calculation,
+    // start a new number
+    if (shouldReset) {
 
-        // Add decimal point
-        display.textContent += ".";
+        currentNumber = "0";
+
+        shouldReset = false;
 
     }
+
+
+    // Prevent more than one decimal point
+    if (number === "." && currentNumber.includes(".")) {
+
+        return;
+
+    }
+
+
+    // Replace the first 0
+    // when entering another number
+    if (currentNumber === "0" && number !== ".") {
+
+        currentNumber = number;
+
+    } else {
+
+        // Add the number to the current number
+        currentNumber += number;
+
+    }
+
+
+    // Update the display
+    updateDisplay();
+
 }
 
 
-// ==============================
-// SELECT OPERATOR
-// ==============================
+// ================================
+// Choose Operator
+// ================================
 
-function operator(op) {
+function chooseOperator(selectedOperator) {
 
     // Save the first number
-    firstNumber = display.textContent;
+    firstNumber = Number(currentNumber);
 
-    // Save the selected operator
-    selectedOperator = op;
+    // Save the operator
+    operator = selectedOperator;
 
-    // Show the first number and operator
+
+    // Show the calculation in history
     history.textContent =
-        firstNumber + " " + op;
+        currentNumber + " " + selectedOperator;
 
-    // Clear the display for the second number
-    display.textContent = "0";
+
+    // The next number should start from 0
+    shouldReset = true;
+
 }
 
 
-// ==============================
-// CALCULATE ANSWER
-// ==============================
+// ================================
+// Calculate
+// ================================
 
 function calculate() {
 
+    // Make sure we have a number and operator
+    if (firstNumber === null || operator === null) {
+
+        return;
+
+    }
+
+
     // Get the second number
-    let secondNumber = display.textContent;
+    let secondNumber = Number(currentNumber);
 
-    // Convert first number from text to number
-    let a = Number(firstNumber);
 
-    // Convert second number from text to number
-    let b = Number(secondNumber);
-
-    // Create a variable for the answer
-    let answer;
+    // Variable to store answer
+    let result = 0;
 
 
     // Addition
-    if (selectedOperator === "+") {
+    if (operator === "+") {
 
-        answer = a + b;
+        result = firstNumber + secondNumber;
 
     }
 
 
     // Subtraction
-    if (selectedOperator === "-") {
+    if (operator === "-") {
 
-        answer = a - b;
+        result = firstNumber - secondNumber;
 
     }
 
 
     // Multiplication
-    if (selectedOperator === "*") {
+    if (operator === "*") {
 
-        answer = a * b;
+        result = firstNumber * secondNumber;
 
     }
 
 
     // Division
-    if (selectedOperator === "/") {
+    if (operator === "/") {
+
 
         // Prevent division by zero
-        if (b === 0) {
+        if (secondNumber === 0) {
 
-            display.textContent = "Error";
+            currentNumber = "Cannot divide by zero";
+
+            updateDisplay();
 
             return;
+
         }
 
-        answer = a / b;
+
+        // Perform division
+        result = firstNumber / secondNumber;
 
     }
 
@@ -132,64 +173,357 @@ function calculate() {
     // Show the complete calculation
     history.textContent =
         firstNumber + " " +
-        selectedOperator + " " +
+        operator + " " +
         secondNumber + " =";
 
 
-    // Show the answer
-    display.textContent = answer;
+    // Convert result to text
+    currentNumber = String(result);
+
+
+    // Clear the first number
+    firstNumber = null;
+
+    // Clear the operator
+    operator = null;
+
+
+    // Tell calculator that the next number is new
+    shouldReset = true;
+
+
+    // Show answer
+    updateDisplay();
+
 }
 
 
-// ==============================
-// CLEAR CALCULATOR
-// ==============================
+// ================================
+// Clear All
+// ================================
 
 function clearAll() {
 
-    // Reset the main display
-    display.textContent = "0";
+    // Reset current number
+    currentNumber = "0";
 
-    // Clear the history
+    // Remove first number
+    firstNumber = null;
+
+    // Remove operator
+    operator = null;
+
+    // Clear history
     history.textContent = "";
 
-    // Clear the first number
-    firstNumber = "";
+    // Reset calculator state
+    shouldReset = false;
 
-    // Clear the operator
-    selectedOperator = "";
+    // Update display
+    updateDisplay();
+
 }
 
 
-// ==============================
-// DELETE LAST NUMBER
-// ==============================
+// ================================
+// Clear Entry
+// ================================
+
+function clearEntry() {
+
+    // Reset only the current number
+    currentNumber = "0";
+
+    // Update display
+    updateDisplay();
+
+}
+
+
+// ================================
+// Backspace
+// ================================
 
 function backspace() {
 
-    // Remove the last character
-    display.textContent =
-        display.textContent.slice(0, -1);
+    // If there is only one character
+    if (currentNumber.length === 1) {
 
+        // Return to zero
+        currentNumber = "0";
 
-    // If there is nothing left
-    if (display.textContent === "") {
+    } else {
 
-        // Return to 0
-        display.textContent = "0";
+        // Remove the last character
+        currentNumber =
+            currentNumber.slice(0, -1);
 
     }
+
+
+    // Update display
+    updateDisplay();
+
 }
 
 
-// ==============================
-// CHANGE POSITIVE / NEGATIVE
-// ==============================
+// ================================
+// Change Sign
+// ================================
 
 function changeSign() {
 
-    // Change positive number to negative
-    // or negative number to positive
-    display.textContent =
-        Number(display.textContent) * -1;
+    // Do not change zero
+    if (currentNumber !== "0") {
+
+        // Change positive to negative
+        // or negative to positive
+        currentNumber =
+            String(Number(currentNumber) * -1);
+
+    }
+
+
+    // Update display
+    updateDisplay();
+
 }
+
+
+// ================================
+// Percentage
+// ================================
+
+function percent() {
+
+    // Divide the number by 100
+    currentNumber =
+        String(Number(currentNumber) / 100);
+
+
+    // Update display
+    updateDisplay();
+
+}
+
+
+// ================================
+// Disabled: 1/x
+// ================================
+
+// This function is kept for reference,
+// but the HTML button is disabled.
+
+function reciprocal() {
+
+    // Check for division by zero
+    if (Number(currentNumber) === 0) {
+
+        currentNumber = "Cannot divide by zero";
+
+    } else {
+
+        // Calculate 1 divided by the number
+        currentNumber =
+            String(1 / Number(currentNumber));
+
+    }
+
+
+    // Update display
+    updateDisplay();
+
+}
+
+
+// ================================
+// Disabled: x²
+// ================================
+
+// This function is kept for reference,
+// but the HTML button is disabled.
+
+function square() {
+
+    // Multiply number by itself
+    currentNumber =
+        String(Number(currentNumber) ** 2);
+
+
+    // Update display
+    updateDisplay();
+
+}
+
+
+// ================================
+// Disabled: √x
+// ================================
+
+// This function is kept for reference,
+// but the HTML button is disabled.
+
+function squareRoot() {
+
+    // Check if number is negative
+    if (Number(currentNumber) < 0) {
+
+        currentNumber = "Invalid input";
+
+    } else {
+
+        // Calculate square root
+        currentNumber =
+            String(Math.sqrt(Number(currentNumber)));
+
+    }
+
+
+    // Update display
+    updateDisplay();
+
+}
+
+
+// ================================
+// Memory Clear
+// ================================
+
+function memoryClear() {
+
+    // Clear memory
+    memory = 0;
+
+}
+
+
+// ================================
+// Memory Recall
+// ================================
+
+function memoryRecall() {
+
+    // Put memory value on display
+    currentNumber = String(memory);
+
+    // Update display
+    updateDisplay();
+
+}
+
+
+// ================================
+// Memory Add
+// ================================
+
+function memoryAdd() {
+
+    // Add current number to memory
+    memory += Number(currentNumber);
+
+}
+
+
+// ================================
+// Memory Subtract
+// ================================
+
+function memorySubtract() {
+
+    // Subtract current number from memory
+    memory -= Number(currentNumber);
+
+}
+
+
+// ================================
+// Memory Save
+// ================================
+
+function memorySave() {
+
+    // Save current number to memory
+    memory = Number(currentNumber);
+
+}
+
+
+// ================================
+// Keyboard Support
+// ================================
+
+document.addEventListener("keydown", function(event) {
+
+
+    // Number keys 0 to 9
+    if (event.key >= "0" && event.key <= "9") {
+
+        addNumber(event.key);
+
+    }
+
+
+    // Decimal point
+    if (event.key === ".") {
+
+        addNumber(".");
+
+    }
+
+
+    // Addition
+    if (event.key === "+") {
+
+        chooseOperator("+");
+
+    }
+
+
+    // Subtraction
+    if (event.key === "-") {
+
+        chooseOperator("-");
+
+    }
+
+
+    // Multiplication
+    if (event.key === "*") {
+
+        chooseOperator("*");
+
+    }
+
+
+    // Division
+    if (event.key === "/") {
+
+        chooseOperator("/");
+
+    }
+
+
+    // Enter key
+    if (event.key === "Enter") {
+
+        calculate();
+
+    }
+
+
+    // Escape key
+    if (event.key === "Escape") {
+
+        clearAll();
+
+    }
+
+
+    // Backspace key
+    if (event.key === "Backspace") {
+
+        backspace();
+
+    }
+
+});
