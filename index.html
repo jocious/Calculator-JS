@@ -1,144 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<!--
+    This tells the browser that this document is written in HTML5.
+    The lang="en" attribute indicates that the page's main language is English.
+-->
 
 <head>
+    <!-- The head contains information about the webpage that is not displayed as calculator content. -->
 
-    <!- Name shown on the browser tab -->
-    <title>JavaScript Calculator</title>
+    <meta charset="UTF-8">
+    <!--
+        UTF-8 allows the webpage to display different characters and symbols correctly,
+        including the multiplication sign, division sign, and backspace symbol.
+    -->
 
-    <!-- Connect HTML to CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--
+        This makes the webpage adjust to the width of the device's screen.
+        It helps prevent the calculator from appearing zoomed out on mobile devices.
+    -->
+
+    <title>Standard Calculator</title>
+    <!-- This is the title that appears in the browser tab. -->
+
     <link rel="stylesheet" href="style.css">
-
+    <!--
+        This connects the HTML file to style.css.
+        The CSS file controls the calculator's background, size, colors, spacing, and buttons.
+    -->
 </head>
 
-
 <body>
+    <!-- Everything inside the body is part of the webpage's visible content. -->
 
-    <!-- Main calculator -->
     <div class="calculator">
+        <!--
+            This is the main container of the calculator.
+            All calculator elements are placed inside it so CSS can style them as one box.
+        -->
 
+        <div class="header">
+            <!-- This section contains the menu symbol and calculator title. -->
 
-        <!-- Top bar -->
-        <div class="top">
+            <span class="menu-icon">☰</span>
+            <!-- Displays the three-line menu symbol on the left side of the heading. -->
 
-            <!-- Menu icon -->
-            <span>☰</span>
-
-            <!-- Calculator type -->
-            <b>Standard</b>
-
+            <span class="title">Calculator</span>
+            <!-- Displays the word Calculator beside the menu symbol. -->
         </div>
 
+        <div id="history" class="history"></div>
+        <!--
+            JavaScript uses this element to show the previous calculation.
+            For example, it can display "5 + 3 =" above the final answer.
+            The id="history" allows JavaScript to find and update this exact element.
+        -->
 
-        <!-- Display -->
-        <div class="display">
+        <div id="display" class="display">0</div>
+        <!--
+            This is the main number display.
+            It starts at 0, just like a normal calculator.
+            JavaScript changes its text whenever you type a number or calculate an answer.
+        -->
 
-            <!-- Shows previous calculation -->
-            <div id="history"></div>
-
-            <!-- Shows current number -->
-            <div id="display">0</div>
-
-        </div>
-
-
-        <!-- Memory buttons -->
-        <div class="memory">
-
-            <!-- Disabled memory buttons -->
-            <button disabled>MC</button>
-            <button disabled>MR</button>
-            <button disabled>M+</button>
-            <button disabled>M−</button>
-            <button disabled>MS</button>
-            <button disabled>M⌄</button>
-
-        </div>
-
-
-        <!-- Calculator buttons -->
         <div class="buttons">
+            <!--
+                This container holds all calculator buttons.
+                CSS Grid arranges the buttons into four columns, similar to Windows Calculator.
+            -->
 
+            <button data-action="percent">%</button>
+            <!-- Divides the displayed number by 100 in this simplified calculator. -->
 
-            <!-- First row -->
+            <button data-action="clear-entry">CE</button>
+            <!-- Clears the current displayed entry without resetting the entire calculation. -->
 
-            <button onclick="percent()">%</button>
+            <button data-action="clear">C</button>
+            <!-- Clears the current number, stored operator, and previous calculation. -->
 
-            <button onclick="clearEntry()">CE</button>
+            <button data-action="backspace">⌫</button>
+            <!--
+                This button deletes the last character of the number being typed.
+                For example, typing 123 and pressing this button changes the display to 12.
+            -->
 
-            <button onclick="clearAll()">C</button>
+            <button data-action="reciprocal">¹⁄ₓ</button>
+            <!-- Calculates the reciprocal of the displayed number: 1 divided by that number. -->
 
-            <button onclick="backspace()">⌫</button>
+            <button data-action="square">x²</button>
+            <!-- Multiplies the displayed number by itself. -->
 
+            <button data-action="sqrt">√x</button>
+            <!-- Calculates the square root of the displayed number. -->
 
-            <!-- Second row -->
+            <button data-operator="divide">÷</button>
+            <!-- Tells JavaScript that the user wants to divide two numbers. -->
 
-            <!-- Disabled 1/x -->
-            <button class="disabled-button" disabled>¹⁄ₓ</button>
+            <button data-number="7">7</button>
+            <!-- Each data-number attribute tells JavaScript which digit was clicked. -->
 
-            <!-- Disabled x² -->
-            <button class="disabled-button" disabled>x²</button>
+            <button data-number="8">8</button>
+            <button data-number="9">9</button>
+            <button data-operator="multiply">×</button>
+            <!-- The multiply button tells JavaScript to multiply the selected numbers. -->
 
-            <!-- Disabled square root -->
-            <button class="disabled-button" disabled>√x</button>
+            <button data-number="4">4</button>
+            <button data-number="5">5</button>
+            <button data-number="6">6</button>
+            <button data-operator="subtract">−</button>
+            <!-- The subtract button tells JavaScript to subtract the second number from the first. -->
 
-            <!-- Division -->
-            <button onclick="chooseOperator('/')">÷</button>
+            <button data-number="1">1</button>
+            <button data-number="2">2</button>
+            <button data-number="3">3</button>
+            <button data-operator="add">+</button>
+            <!-- The add button tells JavaScript to add the selected numbers. -->
 
+            <button data-action="sign">+/−</button>
+            <!-- Changes a positive number into a negative number, or vice versa. -->
 
-            <!-- Third row -->
+            <button data-number="0">0</button>
+            <!-- Allows the user to enter zero. -->
 
-            <button onclick="addNumber('7')">7</button>
+            <button data-action="decimal">.</button>
+            <!-- Adds a decimal point, provided the current number does not already contain one. -->
 
-            <button onclick="addNumber('8')">8</button>
-
-            <button onclick="addNumber('9')">9</button>
-
-            <button onclick="chooseOperator('*')">×</button>
-
-
-            <!-- Fourth row -->
-
-            <button onclick="addNumber('4')">4</button>
-
-            <button onclick="addNumber('5')">5</button>
-
-            <button onclick="addNumber('6')">6</button>
-
-            <button onclick="chooseOperator('-')">−</button>
-
-
-            <!-- Fifth row -->
-
-            <button onclick="addNumber('1')">1</button>
-
-            <button onclick="addNumber('2')">2</button>
-
-            <button onclick="addNumber('3')">3</button>
-
-            <button onclick="chooseOperator('+')">+</button>
-
-
-            <!-- Last row -->
-
-            <button onclick="changeSign()">+/−</button>
-
-            <button onclick="addNumber('0')">0</button>
-
-            <button onclick="addNumber('.')">.</button>
-
-            <!-- Equals -->
-            <button class="equals" onclick="calculate()">=</button>
-
-
+            <button class="equals" data-action="equals">=</button>
+            <!--
+                The equals button tells JavaScript to perform the pending operation
+                and display the result. The equals class makes this button red in the CSS.
+            -->
         </div>
-
     </div>
 
-
-    <!-- Connect HTML to JavaScript -->
     <script src="script.js"></script>
-
+    <!--
+        This loads the JavaScript after the calculator's HTML elements have been created.
+        It allows script.js to find the display and buttons and make them interactive.
+    -->
 </body>
-
 </html>
